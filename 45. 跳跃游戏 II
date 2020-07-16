@@ -1,0 +1,26 @@
+# greed
+贪心算法
+class Solution {
+    // 注意：总是能到达最后一个位置
+    // 贪心算法
+    // 每次都是选择当前能达到的最远位置，这样就能保证最小次数
+    public int jump(int[] nums) {
+        int len = nums.length;
+        if (len == 0 || len == 1) {
+            return 0;
+        }
+        int maxStep = 0;
+        int end = 0;
+        int count = 0;
+        // 不需要访问最后一个位置，因为再到达最后一个位置前，我们一定能到达最后一个位置
+        // 如果 end 恰巧等于最后一个位置的下标，那么就会多计算一次跳跃次数
+        for (int i = 0; i < len - 1; i++) {
+            maxStep = Math.max(maxStep, i + nums[i]);
+            if (i == end) {
+                end = maxStep;
+                count++;
+            }
+        }
+        return count;
+    }
+}
