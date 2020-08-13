@@ -1,19 +1,23 @@
-# greed
-贪心算法
 class Solution {
-    // 贪心算法
-    // 只要保证当前下标 i 小于等于 steps 能够跳跃到的地方
-    // 那么就可以一直寻找最大的跳跃长度，就能判断是否能跳跃到最后一个位置
+    // 贪心思想
+    // 每次判断当前能往后走的长度和当前还能再走的长度的最大值
+    // 也就是每次尽可能的找到能走的最大长度，判断是否能达到最后一个位置即可
     public boolean canJump(int[] nums) {
-        int len = nums.length;
-        int steps = 0;
-        for (int i = 0; i < len; i++) {
-            if (i <= steps) {
-                steps = Math.max(steps, i + nums[i]);
-                if (steps >= len - 1) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        int tmp = nums[0];
+        int index = 0;
+        while (index < nums.length) {
+            if (tmp >= index) {
+                if (tmp < nums[index] + index) {
+                    tmp = nums[index] + index;
+                }
+                if (tmp >= nums.length - 1) {
                     return true;
                 }
             }
+            index++;
         }
         return false;
     }
