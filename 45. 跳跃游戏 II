@@ -24,3 +24,27 @@ class Solution {
         return count;
     }
 }
+
+方法二：
+class Solution {
+    // 从左往右找到最远的，也就是下标最小的能到达最后一个位置的下标，假设为 x
+    // 再从左重新寻找最远的能到达 x 的下标，依次寻找
+    public int jump(int[] nums) {
+        int len = nums.length;
+        if (len == 0 || len == 1) {
+            return 0;
+        }
+        int tag = len - 1;
+        int count = 0;
+        while (tag > 0) {
+            for (int i = 0; i < len; i++) {
+                if (i + nums[i] >= tag) {
+                    tag = i;
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+}
