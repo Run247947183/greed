@@ -1,0 +1,41 @@
+# greed
+贪心算法
+class Solution {
+    public int robotSim(int[] commands, int[][] obstacles) {
+        // tag 表示当前如何走，是横坐标操作，还是纵坐标操作
+        int[][] tag = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int x = 0;
+        int y = 0;
+        // 将阻塞点加入 set ，以便于后序新节点的判断
+        Set<String> set = new HashSet<>();
+        for (int[] tmp : obstacles) {
+            set.add(tmp[0] + "," + tmp[1]);
+        }
+        int count = 0; // 最终答案
+        int pos = 0; // 表示当前走的方向
+        for (int num : commands) {
+            if (num == -1) {
+                pos = (pos + 1) % 4;
+            } else if (num == -2) {
+                pos = (pos + 3) % 4;
+            } else {
+                // num 为需要走的步数，从 1 开始依次遍历判断，判断可能出现在阻塞点的地方
+                for (int i = 1; i <= num; i++) {
+                    int newX = x + tag[pos][0];
+                    int newY = y + tag[pos][1];
+                    // 出现了阻塞点，则停止，停在了阻塞点的前一个位置
+                    if (set.contains(newX + "," + newY)) {
+                        break;
+                    } else {
+                        // 不是阻塞点，则更新横纵坐标
+                        x = newX;
+                        y = newY;
+                        // 判断最大值
+                        count = Math.max(count, x * x + y * y);
+                    }
+                }
+            }
+        }
+        return count;
+    }
+}
