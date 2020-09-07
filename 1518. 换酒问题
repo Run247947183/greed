@@ -1,0 +1,14 @@
+# greed
+贪心算法
+class Solution {
+    public int numWaterBottles(int numBottles, int numExchange) {
+        int count = numBottles;
+        int res = numBottles;
+        while (res >= numExchange) {
+            int num = res / numExchange;
+            count += num;
+            res = res % numExchange + num;
+        }
+        return count;
+    }
+}
